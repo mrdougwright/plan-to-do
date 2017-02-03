@@ -20,11 +20,14 @@
 
 li {
   list-style-type: none;
-}
-
-span.delete {
   cursor: pointer;
 }
+
+.complete {
+  text-decoration: line-through;
+}
+
+
 
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }

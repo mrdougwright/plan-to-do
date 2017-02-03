@@ -13,7 +13,7 @@ export default class RemoveTodo extends React.Component {
 
   render() {
     return (
-      <span className='delete' onClick={(e) => {this.removeTodo(e)}}> 🔥 </span>
+      <span onClick={(e) => {this.removeTodo(e)}}> {this.props.icon} </span>
     );
   }
 }
