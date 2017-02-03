@@ -13,13 +13,22 @@ export default class App extends React.Component {
       uid: null,
       owner: null
     }
-    this.updateTodos = this.updateTodos.bind(this)
+    this.addTodo = this.addTodo.bind(this)
+    this.removeTodo = this.removeTodo.bind(this)
     this.renderLogin = this.renderLogin.bind(this)
     this.authenticate = this.authenticate.bind(this)
     this.authHandler = this.authHandler.bind(this)
+    this.logout = this.logout.bind(this)
   }
 
   componentDidMount() {
+    // after successful auth, keep user logged in
+    base.onAuth((user) => {
+      if(user) {
+        this.authHandler(null, { user })
+      }
+    })
+
     base.syncState(`${this.props.params.listId}/todos`, {
       context: this,
       state: 'todos',
@@ -27,10 +36,18 @@ export default class App extends React.Component {
     })
   }
 
-  updateTodos(todosArray) {
+  addTodo(todo, todosArray) {
     this.setState({
-      todos: todosArray.concat([this.state.currentTodo]),
+      todos: todosArray.concat([todo]),
       currentTodo: ''
+    })
+  }
+
+  removeTodo(todo, todosArray) {
+    const i = todosArray.indexOf(todo)
+    todosArray.splice(i, 1)
+    this.setState({
+      todos: todosArray
     })
   }
 
@@ -59,6 +76,11 @@ export default class App extends React.Component {
     })
   }
 
+  logout() {
+    base.unauth()
+    this.setState({ uid: null })
+  }
+
   renderLogin() {
     return (
       <nav>
@@ -69,7 +91,7 @@ export default class App extends React.Component {
 
 
   render() {
-    const logout = <button>Log Out</button>
+    const logout = <button style={{float: 'right'}} onClick={this.logout}>Log Out</button>
 
     if(!this.state.uid) {
       return <div>{this.renderLogin()}</div>
@@ -90,9 +112,9 @@ export default class App extends React.Component {
         <NewTodo
           formValue={this.state.currentTodo}
           onChange={(e) => this.setState({currentTodo: e.target.value})}
-          createTodo={(e) => {this.updateTodos(this.state.todos)}}
+          createTodo={(newTask) => {this.addTodo(newTask, this.state.todos)}}
         />
-        <ToDoList todos={this.state.todos}/>
+        <ToDoList todos={this.state.todos} deleteTodo={(task) => {this.removeTodo(task, this.state.todos)}}/>
       </div>
     );
   }

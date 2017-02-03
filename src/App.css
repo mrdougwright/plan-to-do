@@ -18,6 +18,14 @@
   font-size: large;
 }
 
+li {
+  list-style-type: none;
+}
+
+span.delete {
+  cursor: pointer;
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
