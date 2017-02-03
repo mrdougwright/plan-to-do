@@ -20,12 +20,10 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    base.fetch('todos', {
+    base.syncState(`${this.props.params.listId}/todos`, {
       context: this,
+      state: 'todos',
       asArray: true
-    })
-    .then(data => {
-      console.log(data)
     })
   }
 
@@ -52,10 +50,11 @@ export default class App extends React.Component {
       if(!data.owner) {
         listRef.set({ owner: authData.user.uid })
       }
-
+      console.log(data)
       this.setState({
         uid: authData.user.uid,
-        owner: data.owner || authData.user.uid
+        owner: data.owner || authData.user.uid,
+        todos: data.todos || []
       })
     })
   }
