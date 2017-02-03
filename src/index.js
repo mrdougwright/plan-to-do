@@ -11,7 +11,7 @@ const Root = () => {
     <Router history={browserHistory}>
       <div>
         <Route path="/" component={ListPicker} />
-        <Route path="/list/(:listId)" component={App} />
+        <Route path="/(:listId)" component={App} />
         <Route path="*" component={NotFound} />
       </div>
     </Router>

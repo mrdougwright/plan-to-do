@@ -9,7 +9,7 @@ class ListPicker extends React.Component {
     event.preventDefault()
     const listId = this.listInput.value
     console.log(`Going to ${listId}`)
-    browserHistory.push(`/list/${listId}`)
+    browserHistory.push(`/${listId}`)
   }
 
   render() {

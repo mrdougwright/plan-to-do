@@ -37,13 +37,27 @@ export default class App extends React.Component {
   }
 
   authenticate(provider) {
+    console.log(`logging in with ${provider}`)
     base.authWithOAuthPopup(provider, this.authHandler)
   }
 
   authHandler(err, authData) {
     if (err) { console.error(err); return; }
 
-    const listRef = base.database().ref(authData)
+    const listRef = base.database().ref(this.props.params.listId)
+
+    listRef.once('value', (snapshot) => {
+      const data = snapshot.val() || {}
+
+      if(!data.owner) {
+        listRef.set({ owner: authData.user.uid })
+      }
+
+      this.setState({
+        uid: authData.user.uid,
+        owner: data.owner || authData.user.uid
+      })
+    })
   }
 
   renderLogin() {
