@@ -1,8 +1,8 @@
-import './App.css';
+import '../App.css';
 import React from "react";
-import base from './config/firebase'
-import NewTodo from "./components/NewTodo";
-import ToDoList from "./components/ToDoList";
+import base from '../config/firebase'
+import NewTodo from "./NewTodo";
+import ToDoList from "./ToDoList";
 
 export default class App extends React.Component {
   constructor() {
@@ -41,7 +41,9 @@ export default class App extends React.Component {
   }
 
   authHandler(err, authData) {
-    console.log(authData)
+    if (err) { console.error(err); return; }
+
+    const listRef = base.database().ref(authData)
   }
 
   renderLogin() {

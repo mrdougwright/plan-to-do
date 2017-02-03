@@ -8,4 +8,4 @@ const TodoList = (props) => {
   )
 }
 
-module.exports = TodoList;
+export default TodoList;

@@ -1,7 +1,24 @@
 require('dotenv').config()
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from './App'
+import { browserHistory, Router, Route } from 'react-router'
+import App from './components/App'
+import ListPicker from './components/ListPicker'
+import NotFound from './components/NotFound'
 
-const app = document.getElementById('app')
-ReactDOM.render(<App/>, app)
+const Root = () => {
+  return (
+    <Router history={browserHistory}>
+      <div>
+        <Route path="/" component={ListPicker} />
+        <Route path="/list/(:listId)" component={App} />
+        <Route path="*" component={NotFound} />
+      </div>
+    </Router>
+  )
+}
+
+ReactDOM.render(
+  <Root />,
+  document.getElementById('app')
+);
